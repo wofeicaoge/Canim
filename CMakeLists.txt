@@ -3,8 +3,10 @@ project(Canim)
 
 add_definitions("-std=c++17")
 
-#add_subdirectory(src)
-#add_subdirectory(test)
+include_directories(src)
 
-# Add the executable
-add_executable(canim main.cpp)
+set(ANIMATION_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/animation/animation.cpp)
+
+add_executable(canim main.cpp ${ANIMATION_SRC})
+
+add_library(canimlib ${ANIMATION_SRC})
