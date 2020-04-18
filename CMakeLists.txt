@@ -3,7 +3,8 @@ project(Canim)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
-find_package(Boost REQUIRED COMPONENTS unit_test_framework)
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
 
 
 if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
@@ -20,7 +21,7 @@ add_library(${ANIMATION_LIB} ${ANIMATION_SRC})
 target_link_libraries(${ANIMATION_LIB})
 
 add_executable(${PROJECT_NAME} main.cpp)
-target_link_libraries(${PROJECT_NAME} ${ANIMATION_LIB})
+target_link_libraries(${PROJECT_NAME} ${ANIMATION_LIB} ${CONAN_LIBS})
 
 
 
