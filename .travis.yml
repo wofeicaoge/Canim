@@ -6,6 +6,20 @@ matrix:
     - os: linux
       compiler:
         - gcc
+    - os: windows
+      compiler:
+        - gcc
+    - os: linux
+      compiler:
+        - clang
+    - os: windows
+      compiler:
+        - clang
+    - os: osx
+      compiler:
+        - gcc
+    - os: osx
+      compiler:
         - clang
 install:
   - pip install --upgrade pip
