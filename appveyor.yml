@@ -28,13 +28,20 @@ init:
   - cmd: msbuild /version
 
 install:
-  - git submodule update --init --recursive
+  - cmd: echo "Downloading conan..."
+  - cmd: set PATH=%PATH%;%PYTHON%/Scripts/
+  - cmd: pip.exe install conan
+  - cmd: conan user # Create the conan data directory
+  - cmd: conan --version
 
 before_build:
-  - cmake . -Bbuild -A%PLATFORM% -DCMAKE_BUILD_TYPE=%configuration%
+  - cmd: mkdir build
+  - cmd: cd build && conan install ..
+  - cmd: cmake . -Bbuild -A%PLATFORM% -DCMAKE_BUILD_TYPE=%configuration%
+  - cmd: cmake --build . --config Debug
 
 build:
-  project: build/CPP_BOILERPLATE.sln
+  project: build/Canim.sln
   parallel: true
   verbosity: minimal
   

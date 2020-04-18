@@ -144,7 +144,7 @@ if (cmake_build_type_tolower STREQUAL "coverage")
     # adjust the exclude patterns on line 83. 
     SETUP_TARGET_FOR_COVERAGE(
                             coverage            # Name for custom target.
-                            ${TEST_MAIN}        # Name of the test driver executable that runs the tests.
+			    ${TEST_MAIN}        # Name of the test driver executable that runs the tests.
                                                 # NOTE! This should always have a ZERO as exit code
                                                 # otherwise the coverage generation will not complete.
                             coverage_out        # Name of output directory.
