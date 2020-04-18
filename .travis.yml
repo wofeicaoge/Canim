@@ -7,7 +7,6 @@ matrix:
       compiler:
         - gcc
         - clang
-        -
 install:
   - pip install --upgrade pip
   - pip install -r requirements.txt
