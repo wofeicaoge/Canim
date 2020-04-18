@@ -30,7 +30,7 @@ matrix:
           packages:
             - lcov
       env:
-        - MATRIX_EVAL="CXX_COMPILER=g++-7; sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-7 90"
+        - MATRIX_EVAL="sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-7 90"
 
 
 
