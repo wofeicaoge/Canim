@@ -1,0 +1,17 @@
+extraction:
+  cpp:
+    prepare:
+      packages:
+        - g++-7
+        - python3-pip
+        - python3-setuptools
+    after_prepare:
+      - pip3 install -r requirements.txt
+      - export CXX=g++
+    index:
+      build_command:
+        - mkdir build
+        - cd build
+        - conan install ..
+        - cmake .. -DCMAKE_BUILD_TYPE=Debug
+        - make -j2
