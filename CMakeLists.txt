@@ -1,12 +1,28 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.5)
 project(Canim)
 
-add_definitions("-std=c++17")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
+
+find_package(Boost REQUIRED COMPONENTS unit_test_framework)
+
+
+if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    include(CTest)
+endif ()
 
 include_directories(src)
+add_subdirectory(test)
 
 set(ANIMATION_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/animation/animation.cpp)
+set(ANIMATION_LIB animationlib)
 
-add_executable(canim main.cpp ${ANIMATION_SRC})
+add_library(${ANIMATION_LIB} ${ANIMATION_SRC})
+target_link_libraries(${ANIMATION_LIB})
 
-add_library(canimlib ${ANIMATION_SRC})
+add_executable(${PROJECT_NAME} main.cpp)
+target_link_libraries(${PROJECT_NAME} ${ANIMATION_LIB})
+
+
+
+
+

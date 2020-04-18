@@ -1,7 +1,3 @@
-//
-// Created by wofeicaoge on 2020/4/17.
-//
-
 #include <iostream>
 #include <animation/animation.h>
 

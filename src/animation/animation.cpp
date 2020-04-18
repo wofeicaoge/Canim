@@ -1,9 +1,6 @@
-//
-// Created by haozi on 4/17/20.
-//
 #include <iostream>
-#include "animation.h"
+#include <animation/animation.h>
 
 void animation::echo() const {
-    std::cout<<"echo"<<std::endl;
+    std::cout << "echo" << std::endl;
 }
