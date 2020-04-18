@@ -1,5 +1,5 @@
 language: cpp
-dist: xenial
+dist: bionic
 notifications:
   email: false
 cache: pip
@@ -31,19 +31,21 @@ matrix:
         - MATRIX_EVAL="CXX_COMPILER=clang++"
 
 
-before_install:
-  - eval "${MATRIX_EVAL}"
+install:
+  - pip install --upgrade pip
+  - pip install -r requirements.txt
+
+before_script:
   - PARENTDIR=$(pwd)
   - mkdir $PARENTDIR/build
-  - pip install conan
+  - cd $PARENTDIR/build
   - conan install ..
 
-install: 
+script:
+  - eval "${MATRIX_EVAL}"
   - cd $PARENTDIR/build
   - cmake $PARENTDIR -DCMAKE_BUILD_TYPE=Coverage -DCMAKE_CXX_COMPILER=$CXX_COMPILER
   - make
-
-script:
   - make coverage
 
 after_success:
