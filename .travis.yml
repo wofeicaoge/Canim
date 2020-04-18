@@ -9,31 +9,22 @@ cache: pip
 matrix:
   include:
     - os: linux
+      compiler:
+        - gcc
+        - clang
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
             - lcov
-            - g++-7
       env:
         - MATRIX_EVAL="CXX_COMPILER=g++-7; sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-7 90"
 
-    - os: osx
-      osx_image: xcode10.1
-      addons:
-        homebrew:
-          packages:
-          - lcov
-          update: true
-
-      env:
-        - MATRIX_EVAL="CXX_COMPILER=clang++"
-
 
 install:
-  - pip install --upgrade pip
-  - pip install -r requirements.txt
+  - sudo apt-get install python3-pip
+  - pip3 install -r requirements.txt
 
 before_script:
   - PARENTDIR=$(pwd)
