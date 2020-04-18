@@ -1,23 +1,20 @@
 language: cpp
 dist: bionic
 cache: pip
+
+common_sources: &all_sources
+  - ubuntu-toolchain-r-test
+  - llvm-toolchain-trusty
+  - llvm-toolchain-bionic-6.0
+
 matrix:
   include:
     - os: linux
       compiler:
         - gcc
-    - os: windows
-      compiler:
-        - gcc
     - os: linux
       compiler:
         - clang
-    - os: windows
-      compiler:
-        - clang
-    - os: osx
-      compiler:
-        - gcc
     - os: osx
       compiler:
         - clang
