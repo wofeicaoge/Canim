@@ -50,15 +50,11 @@
 #
 
 
-# Param _targetname     The name of new the custom make target
-# Param _testrunner     The name of the target which runs the tests.
-#						MUST return ZERO always, even on errors. 
-#						If not, no coverage report will be created!
+# Param _targetname     The name of the custom make target
 # Param _outputname     lcov output is generated as _outputname.info
 #                       HTML report is generated in _outputname/index.html
-# Optional fourth parameter is passed as arguments to _testrunner
 #   Pass them in list form, e.g.: "-j;2" for -j 2
-FUNCTION(SETUP_TARGET_FOR_COVERAGE _targetname _testrunner _outputname)
+FUNCTION(SETUP_TARGET_FOR_COVERAGE _targetname _outputname)
 
 	IF(NOT LCOV_PATH)
 		MESSAGE(FATAL_ERROR "lcov not found! Aborting...")
@@ -75,7 +71,7 @@ FUNCTION(SETUP_TARGET_FOR_COVERAGE _targetname _testrunner _outputname)
 		${LCOV_PATH} --directory . --zerocounters
 		
 		# Run tests
-		COMMAND ${_testrunner} ${ARGV3}
+		COMMAND ctest ${ARGV3}
 		
 		# Capturing lcov counters and generating report
 		COMMAND ${LCOV_PATH} --directory . --capture --output-file ${_outputname}.info
@@ -144,9 +140,6 @@ if (cmake_build_type_tolower STREQUAL "coverage")
     # adjust the exclude patterns on line 83. 
     SETUP_TARGET_FOR_COVERAGE(
                             coverage            # Name for custom target.
-			    ${TEST_MAIN}        # Name of the test driver executable that runs the tests.
-                                                # NOTE! This should always have a ZERO as exit code
-                                                # otherwise the coverage generation will not complete.
                             coverage_out        # Name of output directory.
                             )
 else() 
