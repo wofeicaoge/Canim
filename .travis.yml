@@ -8,9 +8,20 @@ cache: pip
 # Feel free to add/remove entries from this list.
 matrix:
   include:
+
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - lcov
+      env:
+        - MATRIX_EVAL="CXX_COMPILER=g++-7; sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-7 90"
+
     - os: linux
       compiler:
-        - gcc
         - clang
       addons:
         apt:
@@ -22,8 +33,9 @@ matrix:
         - MATRIX_EVAL="CXX_COMPILER=g++-7; sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-7 90"
 
 
+
 install:
-  - sudo apt-get install python3-pip
+  - sudo apt-get install python3-pip python3-setuptools
   - pip3 install -r requirements.txt
 
 before_script:
