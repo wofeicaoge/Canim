@@ -1,41 +1,52 @@
 language: cpp
-dist: bionic
-cache: pip
+dist: xenial
+notifications:
+  email: false
 
+# Define builds on mulitple OS/compiler combinations. 
+# Feel free to add/remove entries from this list.
 matrix:
   include:
     - os: linux
-      sudo: required
-      compiler:
-        - gcc
-      env: COVERAGE=1
-      before_script:
-        - sudo apt-get install lcov
-    - os: linux
-      compiler:
-        - clang
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - lcov
+            - g++-7
+      env:
+        - MATRIX_EVAL="CXX_COMPILER=g++-7; sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-7 90"
+
     - os: osx
-      compiler:
-        - clang
-install:
-  - pip install --upgrade pip
-  - pip install -r requirements.txt
-before_script:
-  - cd ${TRAVIS_BUILD_DIR}
-  - mkdir Build-Debug && cd Build-Debug
-  - conan install ..
+      osx_image: xcode10.1
+      addons:
+        homebrew:
+          packages:
+          - lcov
+          update: true
+
+      env:
+        - MATRIX_EVAL="CXX_COMPILER=clang++"
+    
+
+before_install:
+  - eval "${MATRIX_EVAL}"
+  - PARENTDIR=$(pwd)
+  - mkdir $PARENTDIR/build
+
+install: 
+  - cd $PARENTDIR/build
+  - cmake $PARENTDIR -DCMAKE_BUILD_TYPE=Coverage -DCMAKE_CXX_COMPILER=$CXX_COMPILER
+  - make
+
 script:
-  - cmake  -DCMAKE_BUILD_TYPE=Debug ..
-  - |
-    if [[ "${COVERAGE}" == "1" ]]; then
-         cmake  -DCMAKE_BUILD_TYPE=Debug -DENABLE_COVERAGE=On ..
-         make -j2 && make test gcov lcov
-    else
-         cmake  -DCMAKE_BUILD_TYPE=Debug ..
-         make -j2 && ctest -j2
-    fi
+  - make coverage
+
 after_success:
-  - |
-    if [[ "${COVERAGE}" == "1" ]]; then
-        bash <(curl -s https://codecov.io/bash) -X gcov
-    fi
+  - cd $PARENTDIR/build
+  - lcov --list coverage_out.info.cleaned  # Show test report in travis log.
+  # Install coverals gem for uploading coverage to coveralls.
+  - gem install coveralls-lcov
+  - coveralls-lcov coverage_out.info.cleaned  # uploads to coveralls
+  - bash <(curl -s https://codecov.io/bash) -f coverage_out.info.cleaned || echo "Codecov did not collect coverage reports"
