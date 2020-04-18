@@ -1,7 +1,7 @@
 #include <animation/animation.h>
 #include "../boost_unit_test.h"
 
-BOOST_AUTO_TEST_SUITE(anim)
+BOOST_AUTO_TEST_SUITE(anim_unit)
 
 BOOST_AUTO_TEST_CASE(anim_test)
 {
