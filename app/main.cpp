@@ -1,7 +1,7 @@
 #include <iostream>
 #include <animation/animation.h>
 
-int main(int argc, char** argv)
+int main()
 {
     std::cout<<"Welcome to Canim!"<<std::endl;
     animation anim(12);
