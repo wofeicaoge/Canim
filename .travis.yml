@@ -2,6 +2,7 @@ language: cpp
 dist: xenial
 notifications:
   email: false
+cache: pip
 
 # Define builds on mulitple OS/compiler combinations. 
 # Feel free to add/remove entries from this list.
@@ -28,12 +29,14 @@ matrix:
 
       env:
         - MATRIX_EVAL="CXX_COMPILER=clang++"
-    
+
 
 before_install:
   - eval "${MATRIX_EVAL}"
   - PARENTDIR=$(pwd)
   - mkdir $PARENTDIR/build
+  - pip install conan
+  - conan install ..
 
 install: 
   - cd $PARENTDIR/build

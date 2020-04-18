@@ -36,3 +36,4 @@ coverage.info
 build
 cmake-build*
 Build*
+*swp
