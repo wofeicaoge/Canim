@@ -5,9 +5,12 @@ cache: pip
 matrix:
   include:
     - os: linux
+      sudo: required
       compiler:
         - gcc
       env: COVERAGE=1
+      before_script:
+        - sudo apt-get install lcov
     - os: linux
       compiler:
         - clang
@@ -21,21 +24,21 @@ before_script:
   - cd ${TRAVIS_BUILD_DIR}
   - mkdir Build-Debug && cd Build-Debug
   - conan install ..
-  - cd .. && mkdir Build-Release && cd Build-Release
-  - conan install ..
 script:
   - cd ../Build-Debug
   - cmake  -DCMAKE_BUILD_TYPE=Debug ..
   - make -j2
   - ctest -j2
   - |
-    if [[ "${TRAVIS_OS_NAME}" == "linux" ]] && [[ "${COVERAGE}" == "1" ]]; then
-         make gcov
-         make lcov
-         bash <(curl -s https://codecov.io/bash) -X gcov || echo "Codecov did not collect coverage reports"
+    if [[ "${COVERAGE}" == "1" ]]; then
+         cmake  -DCMAKE_BUILD_TYPE=Debug -DENABLE_COVERAGE=On ..
+         make -j2 && make test gcov lcov
+    else
+         cmake  -DCMAKE_BUILD_TYPE=Debug ..
+         make -j2 && ctest -j2
     fi
-  - cd ../Build-Release
-  - cmake -DCMAKE_BUILD_TYPE=Release ..
-  - make -j2
-  - ctest -j2
-
+after_success:
+  - |
+    if [[ "${COVERAGE}" == "1" ]]; then
+        bash <(curl -s https://codecov.io/bash) -X gcov
+    fi
