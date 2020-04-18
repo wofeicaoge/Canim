@@ -15,14 +15,16 @@ set(TEST_RUNNER_PARAMS "")  # Any arguemnts to feed the test runner (change as n
 #                         Make Tests (no change needed).
 # --------------------------------------------------------------------------------
 add_executable(${TEST_MAIN} ${ANIMATION_TEST_SRC})
-target_link_libraries(${TEST_MAIN} PRIVATE ${LIBRARY_NAME} ${CONAN_LIBS})
+target_link_libraries(${TEST_MAIN} PUBLIC ${LIBRARY_NAME}
+        ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 set_target_properties(${TEST_MAIN} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
-target_set_warnings(${TEST_MAIN} ENABLE ALL AS_ERROR ALL DISABLE Annoying) # Set warnings (if needed).
+#target_set_warnings(${TEST_MAIN} ENABLE ALL AS_ERROR ALL DISABLE Annoying) # Set warnings (if needed).
 set_target_properties(${TEST_MAIN} PROPERTIES
     CXX_STANDARD 17 
     CXX_STANDARD_REQUIRED YES 
     CXX_EXTENSIONS NO
 )
+target_compile_definitions(${TEST_MAIN} PRIVATE BOOST_TEST_DYN_LINK)
 
 add_test(
     # Use some per-module/project prefix so that it is easier to run only tests for this module
