@@ -56,6 +56,8 @@ function(target_set_warnings)
       endif()
     endif()
 
+    list(APPEND WarningFlags "-Wno-unused-local-typedefs")
+
     list(FIND this_DISABLE "Annoying" disable_annoying)
     if(NOT ${disable_annoying} EQUAL -1)
       if(WMSVC)

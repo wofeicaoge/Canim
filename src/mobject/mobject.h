@@ -4,6 +4,7 @@
 #include <functional>
 #include <utils/Color.h>
 #include <vector>
+#include <xtensor/xarray.hpp>
 
 namespace Canim {
 class Mobject {
@@ -18,6 +19,7 @@ public:
 
 private:
   int dim_{0};
+  xt::xarray<float> points_{0.0, 0.0, 0.0};
   Color color_ = Color(std::string_view("BLACK"));
   std::vector<std::function<void(Mobject *)>> updaters_{};
 };
