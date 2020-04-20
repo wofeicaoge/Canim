@@ -67,7 +67,7 @@ target_link_libraries(${LIBRARY_NAME} PUBLIC ${CONAN_LIBS})
 
 # Set the compile options you want (change as needed).
 target_set_warnings(${LIBRARY_NAME} ENABLE ALL AS_ERROR ALL DISABLE Annoying)
-# target_compile_options(${LIBRARY_NAME} ... )  # For setting manually.
+target_compile_options(${LIBRARY_NAME} PRIVATE "-Wno-unused-local-typedefs" )  # For setting manually.
 
 # Add an executable for the file app/main.cpp.
 # If you add more executables, copy these lines accordingly.
