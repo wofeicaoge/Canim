@@ -1,11 +1,11 @@
 #include <iostream>
-#include <animation/animation.h>
+#include <mobject/mobject.h>
+#include <utils/Color.h>
+
+using namespace Canim;
 
 int main()
 {
-    std::cout<<"Welcome to Canim!"<<std::endl;
-    animation anim(12);
-    anim.echo();
-    std::cout<<anim.get_run_time()<<std::endl;
+    Mobject obj(3);
     return 0;
 }

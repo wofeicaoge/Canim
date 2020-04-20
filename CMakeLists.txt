@@ -36,9 +36,21 @@ conan_basic_setup()
 # --------------------------------------------------------------------------------
 #                         Locate files (change as needed).
 # --------------------------------------------------------------------------------
-set(SOURCES          # All .cpp files in src/
+set(ANIMATION_SOURCES
     ${PROJECT_SOURCE_DIR}/src/animation/animation.cpp
 )
+
+set(MOBJECT_SOURCES
+    ${PROJECT_SOURCE_DIR}/src/mobject/mobject.cpp)
+
+set(UTIL_SOURCES
+    ${PROJECT_SOURCE_DIR}/src/utils/Color.cpp)
+
+set(SOURCES
+    ${ANIMATION_SOURCES}
+    ${MOBJECT_SOURCES}
+    ${UTIL_SOURCES} )
+
 set(LIBRARY_NAME canim)  # Default name for the library built from src/*.cpp (change if you wish)
 
 # --------------------------------------------------------------------------------
