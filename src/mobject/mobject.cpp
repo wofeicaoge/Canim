@@ -5,5 +5,7 @@
 
 namespace Canim {
 
-}//namespace Canim
-
+void Mobject::add_updater(const std::function<void(Mobject *)> &updater) {
+  updaters_.push_back(updater);
+}
+} // namespace Canim
